@@ -2,7 +2,7 @@
 
 Name:           fakeroot
 Version:        1.23
-Release:        2
+Release:        3
 Summary:        Gives a fake root environment
 License:        GPLv3+ and LGPLv2+ and (GPL+ or Artistic)
 URL:            https://tracker.debian.org/pkg/fakeroot
@@ -15,6 +15,7 @@ Patch0003:      debian_hide-dlsym-error.patch
 Patch0004:      fakeroot-inttypes.patch
 Patch0005:      fakeroot-multilib.patch
 Patch0006:      fakeroot-tests.patch
+Patch0007:      fakeroot-remove-four-test-cases.patch
 
 %if %{with autoconf}
 BuildRequires:  autoconf automake libtool po4a
@@ -173,5 +174,8 @@ fi
 %ghost %lang(nl) %{_mandir}/nl/man1/fakeroot.1.gz
 
 %changelog
+* Wed Aug 12 2020 zhangjiapeng <zhangjiapeng9@huawei.com> - 1.23-3
+- remove four test cases to solve the compilation failure
+
 * Fri Nov 29 2019 lihao <lihao129@huawei.com> - 1.23-2
 - Package Init

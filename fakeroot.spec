@@ -2,7 +2,7 @@
 Summary:             Gives a fake root environment
 Name:                fakeroot
 Version:             1.25.2
-Release:             2
+Release:             3
 License:             GPLv3+ and LGPLv2.1 and MIT and GPL+ 
 URL:                 https://tracker.debian.org/pkg/fakeroot
 Source0:             http://salsa.debian.org/clint/fakeroot/-/archive/upstream/1.25.2/%{name}-upstream-%{version}.tar.gz
@@ -15,10 +15,14 @@ Patch6:              fakeroot-drop-tartest.patch
 BuildRequires:       autoconf automake libtool po4a
 %endif
 BuildRequires:       /usr/bin/getopt  libacl-devel libcap-devel sharutils
-Requires:            /usr/bin/getopt fakeroot-libs = %{version}-%{release}
+Requires:            /usr/bin/getopt
 Requires(post):      /usr/sbin/alternatives
 Requires(post):      /usr/bin/readlink
 Requires(preun):     /usr/sbin/alternatives
+
+Provides:            fakeroot-libs = %{version}-%{release}
+Obsoletes:           fakeroot-libs < %{version}-%{release}
+
 %description
 fakeroot runs a command in an environment wherein it appears to have
 root privileges for file manipulation. fakeroot works by replacing the
@@ -26,10 +30,10 @@ file manipulation library functions (chmod(2), stat(2) etc.) by ones
 that simulate the effect the real library functions would have had,
 had the user really been root.
 
-%package libs
-Summary:             Gives a fake root environment (libraries)
-%description libs
-This package contains the libraries required by %{name}.
+%package             help
+Summary:             Documentation for fakeroot
+%description         help
+Documentation for fakeroot
 
 %prep
 %autosetup -p1 -n   %{name}-upstream-%{version}
@@ -109,23 +113,27 @@ if [ $1 = 0 ]; then
   /usr/sbin/alternatives --remove fakeroot "%{_bindir}/fakeroot-sysv"
 fi
 
-%files -f %{name}.lang
+%files
 %defattr(-,root,root,-)
-%doc COPYING AUTHORS BUGS DEBUG doc/README.saving
+%doc COPYING AUTHORS BUGS DEBUG
 %{_bindir}/faked-*
 %ghost %{_bindir}/faked
 %{_bindir}/fakeroot-*
 %ghost %{_bindir}/fakeroot
-%{_mandir}/man1/faked.1*
-%{_mandir}/man1/fakeroot.1*
-
-%files libs
 %dir %{_libdir}/libfakeroot
 %{_libdir}/libfakeroot/libfakeroot-sysv.so
 %{_libdir}/libfakeroot/libfakeroot-tcp.so
 %ghost %{_libdir}/libfakeroot/libfakeroot-0.so
 
+%files help -f %{name}.lang
+%doc doc/README.saving
+%{_mandir}/man1/faked.1*
+%{_mandir}/man1/fakeroot.1*
+
 %changelog
+* Mon Jun  7 2021 lingsheng <lingsheng@huawei.com> - 1.25.2-3
+- Fix file confilct with old version
+
 * Mon 31 May 2021 sunguoshuai <sunguoshuai@huawei.com> - 1.25.2-2
 - Skip tar test: the test is unstable and keeps on randomly failing
 

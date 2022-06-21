@@ -2,7 +2,7 @@
 Summary:             Gives a fake root environment
 Name:                fakeroot
 Version:             1.25.2
-Release:             2
+Release:             3
 License:             GPLv3+ and LGPLv2.1 and MIT and GPL+ 
 URL:                 https://tracker.debian.org/pkg/fakeroot
 Source0:             http://salsa.debian.org/clint/fakeroot/-/archive/upstream/1.25.2/%{name}-upstream-%{version}.tar.gz
@@ -10,6 +10,7 @@ Patch0:              debian_eglibc-fts-without-LFS.patch
 Patch2:              debian_fix-shell-in-fakeroot.patch
 Patch4:              fakeroot-inttypes.patch
 Patch5:              fakeroot-multilib.patch
+Patch6:              fakeroot-drop-tartest.patch
 Patch6000:           backport-define-_STAT_VER-if-not-already-defined.patch
 Patch6001:           backport-add-wrappers-for-new-glibc-2.33+-symbols.patch
 Patch6002:           backport-fix-compile-error-with-DEBUG-enabled.patch
@@ -129,6 +130,9 @@ fi
 %ghost %{_libdir}/libfakeroot/libfakeroot-0.so
 
 %changelog
+* Tue Jun 21 2022 liyanan <liyanan32@h-partners.com> - 1.25.2-3
+- Skip tar test: the test is unstable and keeps on randomly failing
+
 * Sat Mar 13 2021 shixuantong <shixuantong@huawei.com> - 1.25.2-2
 - Fix error: '_STAT_VER' undeclared
 
